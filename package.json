@@ -1,0 +1,27 @@
+{
+  "name": "doxie-node",
+  "version": "0.0.1",
+  "description": "A Node.js wrapper for Doxie go API",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged"
+  },
+  "repository": "git@github.com:ryanSN/doxie-node.git",
+  "author": "ryanSn <ryan.chatterton@sharpnotions.com>",
+  "license": "MIT",
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "husky": "^1.0.0-rc.15",
+    "jest": "^23.6.0",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3"
+  },
+  "dependencies": {
+    "node-fetch": "^2.2.0"
+  }
+}
