@@ -1,3 +1,8 @@
-node_modules
+# Logs
+logs
 *.log
-.vscode
+*.log.*
+
+
+coverage
+node_modules
