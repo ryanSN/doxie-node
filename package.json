@@ -7,7 +7,7 @@
   "author": "ryanSn <ryan.chatterton@sharpnotions.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "report": "jest --coverage"
   },
   "lint-staged": {
