@@ -7,7 +7,8 @@
   "author": "ryanSn <ryan.chatterton@sharpnotions.com>",
   "license": "MIT",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage",
+    "report": "jest --coverage"
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
@@ -29,5 +30,9 @@
   },
   "dependencies": {
     "axios": "^0.18.0"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=8"
   }
 }
