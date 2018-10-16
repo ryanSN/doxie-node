@@ -20,7 +20,7 @@ describe('doxie go JSON API', () => {
 
   describe('hello', () => {
     it('should return /hello.json on existing network', async () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       const data = {
         model: 'DX250',
         name: 'Doxie_042D6A',
@@ -42,7 +42,7 @@ describe('doxie go JSON API', () => {
       });
     });
     it('should return /hello.json on own network', async () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       const data = {
         model: 'DX250',
         name: 'Doxie_042D6A',
@@ -69,7 +69,7 @@ describe('doxie go JSON API', () => {
 
   describe('scanner_status', () => {
     it('should return scanner status', () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       const data = {
         firmware: '0.26',
         connectedToExternalPower: true
@@ -90,7 +90,7 @@ describe('doxie go JSON API', () => {
 
   describe('restart', () => {
     it('should return 204 status', () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       nock(`${baseApiUrl}:${basePort}`)
         .defaultReplyHeaders({
           'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ describe('doxie go JSON API', () => {
 
   describe('list_all_scans', () => {
     it('should return a list of scans', () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       const data = [
         {
           name: '/DOXIE/JPEG/IMG_0001.JPG',
@@ -141,7 +141,7 @@ describe('doxie go JSON API', () => {
 
   describe('most_recent_scan', () => {
     it('should return a most recent scan', () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       const data = { path: '/DOXIE/JPEG/IMG_0003.JPG' };
       nock(`${baseApiUrl}:${basePort}`)
         .defaultReplyHeaders({
@@ -157,9 +157,9 @@ describe('doxie go JSON API', () => {
     });
   });
 
-  describe('get_scan', () => {
+  describe.skip('get_scan', () => {
     it('should return a file stream', () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scan = '/DOXIE/JPEG/IMG_0003.JPG';
       nock(`${baseApiUrl}:${basePort}`)
         .post(`/scans${scan}`)
@@ -170,9 +170,12 @@ describe('doxie go JSON API', () => {
         expect(res.status).toEqual(200);
         const stream = res.data;
         let string = '';
-        stream.on('data', chunk => {
-          string += chunk.toString('utf8');
-        });
+        stream.pipe(
+          'data',
+          chunk => {
+            string += chunk.toString('utf8');
+          }
+        );
         stream.on('end', () => {
           expect(string).toEqual(fs.readFileSync(__filename, 'utf8'));
         });
@@ -180,7 +183,7 @@ describe('doxie go JSON API', () => {
     });
 
     it('should handle 404 error if scan not found', () => {
-      const spy = jest.spyOn(doxie, 'handleRequest');
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scan = '/DOXIE/JPEG/IMG_0003.JPG';
       const data = '';
       nock(`${baseApiUrl}:${basePort}`)
@@ -188,6 +191,20 @@ describe('doxie go JSON API', () => {
         .reply(404, data);
 
       return doxie.get_scan(scan).then(res => {
+        expect(spy).toHaveBeenCalled();
+        expect(res.status).toEqual(404);
+      });
+    });
+
+    it('should handle 404 error if scan not found', () => {
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
+      const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
+      const data = '';
+      nock(`${baseApiUrl}:${basePort}`)
+        .post(`/thumbnails${scanPath}`)
+        .reply(404, data);
+
+      return doxie.get_thumbnail(scanPath).then(res => {
         expect(spy).toHaveBeenCalled();
         expect(res.status).toEqual(404);
       });
