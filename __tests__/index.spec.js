@@ -157,56 +157,78 @@ describe('doxie go JSON API', () => {
     });
   });
 
-  describe.skip('get_scan', () => {
+  describe('get_scan', () => {
     it('should return a file stream', () => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scan = '/DOXIE/JPEG/IMG_0003.JPG';
       nock(`${baseApiUrl}:${basePort}`)
-        .post(`/scans${scan}`)
+        .get(`/scans${scan}`)
         .reply(200, fs.createReadStream(__filename));
 
       return doxie.get_scan(scan).then(res => {
         expect(spy).toHaveBeenCalled();
         expect(res.status).toEqual(200);
-        const stream = res.data;
+        let stream = res.data;
         let string = '';
-        stream.pipe(
-          'data',
-          chunk => {
-            string += chunk.toString('utf8');
-          }
-        );
+        stream.on('data', chunk => {
+          string += chunk.toString('utf8');
+        });
         stream.on('end', () => {
           expect(string).toEqual(fs.readFileSync(__filename, 'utf8'));
         });
       });
     });
 
-    it('should handle 404 error if scan not found', () => {
+    it('should handle 404 error if scan not found', done => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scan = '/DOXIE/JPEG/IMG_0003.JPG';
       const data = '';
       nock(`${baseApiUrl}:${basePort}`)
-        .post(`/scans${scan}`)
+        .get(`/scans${scan}`)
         .reply(404, data);
 
-      return doxie.get_scan(scan).then(res => {
-        expect(spy).toHaveBeenCalled();
-        expect(res.status).toEqual(404);
+      return doxie.get_scan(scan).catch(err => {
+        expect(spy).toHaveBeenCalledTimes(3);
+        expect(err.status).toEqual(404);
+        done();
       });
     });
 
-    it('should handle 404 error if scan not found', () => {
+    it('should handle 404 error if scan not found', done => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
-      const data = '';
       nock(`${baseApiUrl}:${basePort}`)
-        .post(`/thumbnails${scanPath}`)
-        .reply(404, data);
+        .get(`/thumbnails${scanPath}`)
+        .reply(404, '');
+
+      return doxie.get_thumbnail(scanPath).catch(err => {
+        expect(spy).toHaveBeenCalledTimes(3);
+        expect(err.status).toEqual(404);
+        done();
+      });
+    });
+
+    it('should handle retrying till scan found', done => {
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
+      const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
+      nock(`${baseApiUrl}:${basePort}`)
+        .get(`/thumbnails${scanPath}`)
+        .reply(404, '')
+        .get(`/thumbnails${scanPath}`)
+        .reply(200, fs.createReadStream(__filename));
 
       return doxie.get_thumbnail(scanPath).then(res => {
-        expect(spy).toHaveBeenCalled();
-        expect(res.status).toEqual(404);
+        expect(spy).toHaveBeenCalledTimes(2);
+        expect(res.status).toEqual(200);
+        let stream = res.data;
+        let string = '';
+        stream.on('data', chunk => {
+          string += chunk.toString('utf8');
+        });
+        stream.on('end', () => {
+          expect(string).toEqual(fs.readFileSync(__filename, 'utf8'));
+        });
+        done();
       });
     });
   });
