@@ -2,6 +2,47 @@ const doxieNode = require('../lib');
 const nock = require('nock');
 const fs = require('fs');
 
+describe('doxie go initialize', () => {
+  let spy = {};
+
+  beforeEach(() => {
+    spy.console = jest.spyOn(console, 'error').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    spy.console.mockRestore();
+  });
+
+  it('should console.error is missing url', () => {
+    doxie = new doxieNode({ doxiePort: 8080 });
+    expect(console.error).toHaveBeenCalled();
+    expect(spy.console.mock.calls[0][0]).toContain(
+      'No doxieURL found! supply it as an argument or use the DOXIE_URL env variable.'
+    );
+  });
+
+  it('should console.error if missing port', () => {
+    doxie = new doxieNode({
+      doxieURL: 'https://www.fake.url',
+      doxiePort: null
+    });
+    expect(console.error).toHaveBeenCalled();
+    expect(spy.console.mock.calls[0][0]).toContain(
+      'No doxiePort found! supply it as an argument or use the DOXIE_PORT env variable.'
+    );
+  });
+
+  it('should create token if username password passed', () => {
+    doxie = new doxieNode({
+      username: 'doxie',
+      password: 'password1',
+      doxieURL: 'https://www.fake.url',
+      doxiePort: null
+    });
+    expect(doxie.token).not.toBeNull();
+  });
+});
+
 describe('doxie go JSON API', () => {
   const baseApiUrl = 'https://www.fake.url';
   const basePort = 8080;
@@ -193,7 +234,9 @@ describe('doxie go JSON API', () => {
         done();
       });
     });
+  });
 
+  describe('get_thumbnail', () => {
     it('should handle 404 error if scan not found', done => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
@@ -229,6 +272,46 @@ describe('doxie go JSON API', () => {
           expect(string).toEqual(fs.readFileSync(__filename, 'utf8'));
         });
         done();
+      });
+    });
+  });
+
+  describe('delete_scan', () => {
+    it('should delete a scan', () => {
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
+      const data = '/DOXIE/JPEG/IMG_0001.JPG';
+      nock(`${baseApiUrl}:${basePort}`)
+        .defaultReplyHeaders({
+          'Content-Type': 'application/json'
+        })
+        .delete(`/scans${data}`)
+        .reply(204);
+
+      return doxie.delete_scan(data).then(res => {
+        expect(spy).toHaveBeenCalled();
+        expect(res.status).toEqual(204);
+      });
+    });
+  });
+
+  describe('delete_multiple_scans', () => {
+    it('should delete a list of scans', () => {
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
+      const data = [
+        '/DOXIE/JPEG/IMG_0001.JPG',
+        '/DOXIE/JPEG/IMG_0002.JPG',
+        '/DOXIE/JPEG/IMG_0003.JPG'
+      ];
+      nock(`${baseApiUrl}:${basePort}`)
+        .defaultReplyHeaders({
+          'Content-Type': 'application/json'
+        })
+        .post('/scans/delete.json')
+        .reply(204);
+
+      return doxie.delete_multiple_scans(data).then(res => {
+        expect(spy).toHaveBeenCalled();
+        expect(res.status).toEqual(204);
       });
     });
   });

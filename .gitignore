@@ -6,3 +6,5 @@ logs
 
 coverage
 node_modules
+dist
+.npmrc
