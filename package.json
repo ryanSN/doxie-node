@@ -8,7 +8,7 @@
     "dist",
     "lib"
   ],
-  "repository": "git@github.com:ryanSN/doxie-node.git",
+  "repository": "ryanSN/doxie-node.git",
   "bugs": "https://github.com/ryanSN/doxie-node/issues",
   "author": "ryanSN <chatters@gmail.com>",
   "license": "MIT",
@@ -25,6 +25,7 @@
     "doxie",
     "doxie q",
     "doxie go se",
+    "doxie go",
     "doxie go wi-fi",
     "api",
     "wrapper",
@@ -50,9 +51,7 @@
     "rollup": "^0.66.6",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-filesize": "^5.0.1",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-terser": "^3.0.0",
-    "rollup-plugin-uglify": "^6.0.0"
+    "rollup-plugin-node-resolve": "^3.4.0"
   },
   "dependencies": {
     "axios": "^0.18.0",
