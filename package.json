@@ -14,7 +14,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --coverage",
-    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "clean": "rm -rf dist",
     "build": "yarn run build:es && yarn run build:cjs",
     "build:es": "NODE_ENV=es ./node_modules/.bin/rollup -c",
