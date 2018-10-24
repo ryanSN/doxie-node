@@ -3,7 +3,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ryanSN/doxie-node/blob/master/LICENSE)
 [![npm](https://img.shields.io/npm/v/doxie-node.svg)](https://npmjs.com/package/doxie-node)
 [![Build Status](https://travis-ci.org/ryanSN/doxie-node.svg?branch=master)](https://travis-ci.org/ryanSN/doxie-node)
-[![Coverage Status](https://coveralls.io/repos/github/ryanSN/doxie-node/badge.svg?branch=master)](https://coveralls.io/github/ryanSN/doxie-node?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/ryanSN/doxie-node/badge.svg?branch=master)](https://coveralls.io/github/ryanSN/doxie-node?branch=master) [![Greenkeeper badge](https://badges.greenkeeper.io/ryanSN/doxie-node.svg)](https://greenkeeper.io/)
 
 #### Node.js library for Doxie go Wi-fi, Doxie Q, and Doxie Go SE
 
