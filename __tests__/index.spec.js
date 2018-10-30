@@ -315,4 +315,45 @@ describe('doxie go JSON API', () => {
       });
     });
   });
+
+  describe('axios_instance', () => {
+    const baseApiUrl = 'https://www.fake.url';
+    const basePort = 8080;
+    let doxie;
+
+    beforeEach(() => {
+      // https://github.com/nock/nock#disabling-requests
+      nock.disableNetConnect();
+      doxie = new doxieNode({
+        username: 'doxie',
+        password: 'password1',
+        doxieURL: baseApiUrl,
+        doxiePort: basePort
+      });
+    });
+
+    it('should set Authorization header on instance if token exists', () => {
+      doxie.getInitializedApi();
+      expect(doxie.axiosInstance).not.toBeNull();
+      expect(
+        doxie.axiosInstance.defaults.headers.Authorization
+      ).not.toBeUndefined();
+    });
+
+    it('should include Authorization header on requests if present', () => {
+      let authHeader;
+      nock(`${baseApiUrl}:${basePort}`, {
+        reqheaders: {
+          Authorization: headerValue => (authHeader = headerValue)
+        }
+      })
+        .get('/hello.json')
+        .reply(200);
+
+      return doxie.hello().then(() => {
+        expect(authHeader).not.toBeNull();
+        expect(authHeader).not.toBeUndefined();
+      });
+    });
+  });
 });
