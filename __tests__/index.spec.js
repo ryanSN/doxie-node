@@ -251,6 +251,20 @@ describe('doxie go JSON API', () => {
       });
     });
 
+    it('should handle error', done => {
+      const spy = jest.spyOn(doxie, 'getInitializedApi');
+      const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
+      nock(`${baseApiUrl}:${basePort}`)
+        .get(`/thumbnails${scanPath}`)
+        .reply(404, '');
+
+      return doxie.get_thumbnail(scanPath).catch(err => {
+        expect(spy).toHaveBeenCalledTimes(3);
+        expect(err.status).toEqual(404);
+        done();
+      });
+    });
+
     it('should handle retrying till scan found', done => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
@@ -330,6 +344,11 @@ describe('doxie go JSON API', () => {
         doxieURL: baseApiUrl,
         doxiePort: basePort
       });
+    });
+
+    afterEach(() => {
+      nock.cleanAll();
+      jest.restoreAllMocks();
     });
 
     it('should set Authorization header on instance if token exists', () => {

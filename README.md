@@ -165,7 +165,7 @@ the image is not ready.
 - `retries` **optional** - `default: 3` - Number of retires to attempt when image is not ready
 
 ```js
-return doxie.get_thumbnail();
+return doxie.get_thumbnail('/DOXIE/JPEG/IMG_0001.JPG').then(response);
 ```
 
 #### returns on success the stream of the thumbnail
@@ -181,7 +181,7 @@ return doxie.get_thumbnail();
 deletes the scan at the specified path
 
 ```js
-return doxie.delete_scan('/DOXIE/JPEG/IMG_0001.JPG').then(res);
+return doxie.delete_scan('/DOXIE/JPEG/IMG_0001.JPG').then(response);
 ```
 
 #### returns on success
