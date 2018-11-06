@@ -12,7 +12,7 @@ cache:
   directories:
   - node_modules
 before_install:
-- yarn upgrade
+- yarn install
 install:
 - yarn
 script:
