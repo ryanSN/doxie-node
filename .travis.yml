@@ -11,8 +11,6 @@ branches:
 cache:
   directories:
   - node_modules
-before_install:
-- yarn install
 install:
 - yarn
 script:
