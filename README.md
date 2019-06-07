@@ -213,4 +213,10 @@ return doxie.delete_multiple_scans(scans).then(response);
 - `yarn install`
 - `yarn test` to run tests
 
+## deployment
+
+- `npm version [minor, patch, major]`
+- `git push origin master --tag`
+  Auto publishes on tag commit to master.
+
 This library is released under the [MIT License](LICENSE)
