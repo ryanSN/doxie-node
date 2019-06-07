@@ -18,9 +18,6 @@ jobs:
     node_js: '8'
     script:
     - echo "Deploying to npm ..."
-    - yarn build
-    before_deploy:
-    - cd dist
     deploy:
       provider: npm
       email: "$NPM_EMAIL"
