@@ -20,9 +20,10 @@ script:
 jobs:
   include:
     - stage: npm release
-      if: tag IS present
       node_js: "8"
-      script: yarn build
+      script:
+        - echo "Deploying to npm ..."
+        - yarn build
       before_deploy:
         - cd dist
       deploy:
@@ -31,5 +32,6 @@ jobs:
         api_key: "$NPM_TOKEN"
         skip_cleanup: true
         on:
+          branch: master
           tags: true
 
