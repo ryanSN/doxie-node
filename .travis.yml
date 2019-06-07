@@ -1,9 +1,9 @@
 sudo: false
 language: node_js
 node_js:
-  - "8"
-  - "9"
-  - "10"
+- '8'
+- '9'
+- '10'
 cache:
   directories:
   - node_modules
@@ -12,21 +12,20 @@ install:
 script:
 - yarn test
 - yarn run coveralls
-
 jobs:
   include:
-    - stage: npm release
-      node_js: "8"
-      script:
-        - echo "Deploying to npm ..."
-        - yarn build
-      before_deploy:
-        - cd dist
-      deploy:
-        provider: npm
-        email: "$NPM_EMAIL"
-        api_key: "$NPM_TOKEN"
-        skip_cleanup: true
-        on:
-          tags: true
-
+  - stage: npm release
+    node_js: '8'
+    script:
+    - echo "Deploying to npm ..."
+    - yarn build
+    before_deploy:
+    - cd dist
+    deploy:
+      provider: npm
+      email: "$NPM_EMAIL"
+      api_key:
+        secure: cdju+Vlm4dp8Be6y1U0seoTZB4rQ+mo6WGnfd6KGSqpIzvyf5kcMQxio+nUksJXCzMdfhiuOcuq0RVRs5w6U8dn4o14AO7uAGJRMsfzD29P3Awnt733EzKWa/szJTOh3bHMn105lPAEBT9qvkIPI2OFhsndQi4P2tl/sg4yWhKT6zklf8ZVeQYTYiR7GvO8xcZt81uRRrog+tHnBkYrGXxe2fd0lDPA4/vxC1UJIhl5fvxszE9rXLX0edIEG1rgl3Imw70zqqC56PQy+OzZ/ll0dWjupuUWJa/uvIVzDEM8oJEit9wsj5pF+AHwCewxH3K5ZMqkP5s2t60LWVONtSfGZdM9Hq1nYIqHF0U0F4RfxhU/1XxPB2Lc1haGOPuCVY6o1bgJDyWlIRZbCOhhCxxUWGtwIXVt7jTs0W7wbs0/9jpAlWZocuCaGCInNbQZanydYZj6+bdnuVd7shmDNv91KybBsgenrDw5/msvTauJpckQonvzjWvv5RWtRIybVw06fV65Yik1uTg1D8K4eC5qfIz/zIplcb1aG4rH6z0Bwg06AIHhW/F/iTfuyIwUo8dGihToR+z1u2s4qMsucc8tZ8yYflsRHG5SuMpOS9hrjjLxYUD4w+ZsFOyxJ7hjOPwJNSm2+i3CkPTVvuobLy0PNL62vrp9C+elURLr30tM=
+      skip_cleanup: true
+      on:
+        tags: true
