@@ -1,6 +1,6 @@
 {
   "name": "doxie-node",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "A Node.js API wrapper for Doxie go Wi-fi, Doxie Q, and Doxie Go SE",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
