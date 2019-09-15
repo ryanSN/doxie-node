@@ -218,5 +218,7 @@ return doxie.delete_multiple_scans(scans).then(response);
 - `npm version [minor, patch, major]`
 - `git push origin master --tag`
   Auto publishes on tag commit to master.
+  or
+- `git push --follow-tags`
 
 This library is released under the [MIT License](LICENSE)
