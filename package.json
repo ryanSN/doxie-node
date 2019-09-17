@@ -48,7 +48,7 @@
     "husky": "^3.0.0",
     "jest": "^24.8.0",
     "lint-staged": "^9.0.0",
-    "nock": "^10.0.1",
+    "nock": "^11.1.0",
     "prettier": "^1.14.3",
     "rollup": "^1.14.3",
     "rollup-plugin-commonjs": "^10.0.0",
