@@ -1,9 +1,8 @@
 name: CI
 
 on:
-  push:
   pull_request:
-    types: [synchronize]
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
