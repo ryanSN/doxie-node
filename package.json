@@ -17,9 +17,10 @@
     "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
     "clean": "rm -rf dist",
     "build": "yarn run build:es && yarn run build:cjs",
-    "build:es": "NODE_ENV=es ./node_modules/.bin/rollup -c",
-    "build:cjs": "NODE_ENV=cjs ./node_modules/.bin/rollup -c",
-    "prepublish": "yarn clean && yarn build"
+    "build:es": "cross-env NODE_ENV=es ./node_modules/.bin/rollup -c",
+    "build:cjs": "cross-env NODE_ENV=cjs ./node_modules/.bin/rollup -c",
+    "prepublish": "yarn clean && yarn build",
+    "prepare": "yarn build"
   },
   "keywords": [
     "node",
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
+    "cross-env": "^7.0.2",
     "husky": "^3.0.0",
     "jest": "^24.8.0",
     "lint-staged": "^9.0.0",
@@ -52,7 +54,7 @@
     "prettier": "^1.14.3",
     "rollup": "^1.14.3",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-filesize": "^6.0.0",
+    "rollup-plugin-filesize": "^9.0.2",
     "rollup-plugin-node-resolve": "^5.0.1"
   },
   "dependencies": {
