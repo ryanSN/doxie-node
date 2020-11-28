@@ -13,7 +13,7 @@ jobs:
       - name: setup node
         uses: actions/setup-node@v1
         with:
-          node-version: '10.16'
+          node-version: '10.x'
       - run: yarn install
       - run: yarn test
         env:
