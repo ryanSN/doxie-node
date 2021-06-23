@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "retry": "^0.12.0"
+    "retry": "^0.13.1"
   },
   "engineStrict": true,
   "engines": {
