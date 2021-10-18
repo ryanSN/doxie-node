@@ -20,7 +20,7 @@
     "build:es": "cross-env NODE_ENV=es ./node_modules/.bin/rollup -c",
     "build:cjs": "cross-env NODE_ENV=cjs ./node_modules/.bin/rollup -c",
     "prepublish": "yarn clean && yarn build",
-    "prepare": "yarn build"
+    "prepare": "yarn build && husky install"
   },
   "keywords": [
     "node",
@@ -37,29 +37,25 @@
     "*.{js,json,css,md}": [
       "prettier --write",
       "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    ],
+    "*.{js,css,md}": "prettier --write"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
     "cross-env": "^7.0.2",
-    "husky": "^3.0.0",
+    "husky": "^7.0.0",
     "jest": "^26.6.3",
-    "lint-staged": "^9.0.0",
+    "lint-staged": ">=10",
     "nock": "^11.1.0",
     "prettier": "^1.14.3",
     "rollup": "^1.14.3",
     "rollup-plugin-commonjs": "^10.0.0",
-    "rollup-plugin-filesize": "^9.0.2",
+    "rollup-plugin-filesize": "^9.1.1",
     "rollup-plugin-node-resolve": "^5.0.1"
   },
   "dependencies": {
-    "retry": "^0.13.1",
-    "axios": "^0.23.0"
+    "axios": "^0.23.0",
+    "retry": "^0.13.1"
   },
   "engineStrict": true,
   "engines": {
