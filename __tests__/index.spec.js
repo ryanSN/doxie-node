@@ -220,7 +220,7 @@ describe('doxie go JSON API', () => {
       });
     });
 
-    it('should handle 404 error if scan not found', done => {
+    it('should handle 404 error if scan not found', () => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scan = '/DOXIE/JPEG/IMG_0003.JPG';
       const data = '';
@@ -231,13 +231,12 @@ describe('doxie go JSON API', () => {
       return doxie.get_scan(scan).catch(err => {
         expect(spy).toHaveBeenCalledTimes(3);
         expect(err.status).toEqual(404);
-        done();
       });
     });
   });
 
   describe('get_thumbnail', () => {
-    it('should handle 404 error if scan not found', done => {
+    it('should handle 404 error if scan not found', () => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
       nock(`${baseApiUrl}:${basePort}`)
@@ -247,11 +246,10 @@ describe('doxie go JSON API', () => {
       return doxie.get_thumbnail(scanPath).catch(err => {
         expect(spy).toHaveBeenCalledTimes(3);
         expect(err.status).toEqual(404);
-        done();
       });
     });
 
-    it('should handle error', done => {
+    it('should handle error', () => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
       nock(`${baseApiUrl}:${basePort}`)
@@ -261,11 +259,10 @@ describe('doxie go JSON API', () => {
       return doxie.get_thumbnail(scanPath).catch(err => {
         expect(spy).toHaveBeenCalledTimes(3);
         expect(err.status).toEqual(404);
-        done();
       });
     });
 
-    it('should handle retrying till scan found', done => {
+    it('should handle retrying till scan found', () => {
       const spy = jest.spyOn(doxie, 'getInitializedApi');
       const scanPath = '/DOXIE/JPEG/IMG_0003.JPG';
       nock(`${baseApiUrl}:${basePort}`)
@@ -285,7 +282,6 @@ describe('doxie go JSON API', () => {
         stream.on('end', () => {
           expect(string).toEqual(fs.readFileSync(__filename, 'utf8'));
         });
-        done();
       });
     });
   });
