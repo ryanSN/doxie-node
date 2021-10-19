@@ -20,6 +20,7 @@
     "build:es": "cross-env NODE_ENV=es ./node_modules/.bin/rollup -c",
     "build:cjs": "cross-env NODE_ENV=cjs ./node_modules/.bin/rollup -c",
     "prepublish": "yarn clean && yarn build",
+    "serve": "docsify serve docs",
     "prepare": "yarn build && husky install"
   },
   "keywords": [
@@ -42,6 +43,7 @@
   "devDependencies": {
     "coveralls": "^3.0.2",
     "cross-env": "^7.0.2",
+    "docsify-cli": "^4.4.3",
     "husky": "^7.0.0",
     "jest": "^27.3.0",
     "lint-staged": ">=10",
