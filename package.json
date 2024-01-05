@@ -55,7 +55,7 @@
     "rollup-plugin-node-resolve": "^5.0.1"
   },
   "dependencies": {
-    "axios": "^0.27.2",
+    "axios": "^1.6.4",
     "retry": "^0.13.1"
   },
   "engineStrict": true,
